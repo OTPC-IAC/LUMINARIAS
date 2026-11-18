@@ -85,9 +85,9 @@ footer{text-align:center;font-size:12.5px;color:var(--muted)}
 </header>
 
 <section class="panel" aria-label="Buscar en el listado">
- <div><label class="l" for="q">Buscar modelo, fabricante o referencia</label>
-  <div class="search"><input id="q" type="search" autocomplete="off" placeholder="Ej.: ITALO, AEC, C18026L"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></div></div>
- <div><label class="l" for="fab">Fabricante</label><select id="fab"><option value="">Todos los fabricantes</option></select></div>
+ <div><label class="l" for="q">Buscar por marca, modelo o certificación</label>
+  <div class="search"><input id="q" type="search" autocomplete="off" placeholder="Marca, modelo, nº de certificación…"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></div></div>
+ <div><label class="l" for="fab">Fabricante</label><select id="fab"><option value="">Elija un fabricante…</option></select></div>
  <div class="row2">
   <div class="chips" id="tipos" role="group" aria-label="Tipo de luz"></div>
   <div class="seg" id="clase" role="group" aria-label="Clase"><button type="button" data-v="" aria-pressed="true">Todo</button><button type="button" data-v="0" aria-pressed="false">Luminarias</button><button type="button" data-v="1" aria-pressed="false">Placas LED</button></div>
@@ -95,7 +95,7 @@ footer{text-align:center;font-size:12.5px;color:var(--muted)}
  </div>
 </section>
 
-<div class="status" aria-live="polite"><span id="count"></span><span>Pulse una placa LED para ver qué luminarias la usan.</span></div>
+<div class="status" aria-live="polite"><span id="count"></span><span id="hint">Pulse una placa LED para ver qué luminarias la usan.</span></div>
 <main id="res"></main>
 <button type="button" class="more" id="more" hidden>Mostrar más resultados</button>
 
@@ -126,6 +126,8 @@ ${r[6]?`<dt>Cerramiento</dt><dd>${esc(r[6])}</dd>`:""}
 <dt>Ensayo</dt><dd><span class="mono">${esc(r[7])}</span> · ${esc(r[8])}</dd></dl>
 ${r[10]?`<details><summary>Observaciones</summary><p>${esc(r[10])}</p></details>`:""}</article>`;
 function render(){
+ if(!st.fab&&!st.q.trim()){$("count").innerHTML="";$("more").hidden=true;
+  $("res").innerHTML=`<div class="empty"><b style="color:var(--fg);font-size:16px">Elija un fabricante en el desplegable</b><br>para ver sus luminarias y placas LED certificadas. También puede buscar por marca, modelo o nº de certificación.</div>`;return}
  const q=norm(st.q.trim()).split(/\s+/).filter(Boolean);
  const hit=[];
  D.forEach((r,i)=>{
